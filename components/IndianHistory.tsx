@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FaOm, FaLandmark, FaBook, FaBuilding, FaCogs, FaChalkboardTeacher, FaGlobe } from 'react-icons/fa'
 
-
 interface IndianHistoryProps {
   onNavigate: (section: string) => void
 }
@@ -17,7 +16,7 @@ const historicalEvents = [
     icon: FaBook, 
     description: `
       <div>
-        <h2>Vedic Period (1500 BCE - 500 BCE)</h2>
+        <h>Vedic Period (1500 BCE - 500 BCE)</h>
         <p>The Vedic Period marks the foundation of Indian civilization, with the composition of the four Vedas: Rigveda, Samaveda, Yajurveda, and Atharvaveda, which laid the spiritual and philosophical foundations of India.</p>
         
         <h3>🌟 Key Highlights:</h3>
@@ -56,42 +55,52 @@ const historicalEvents = [
     title: 'Mahajanapada Era', 
     icon: FaLandmark, 
     description: `
-      # Mahajanapada Era (600 BCE - 321 BCE)
+      <div>
+        <h1>🌟 Mahajanapada Era (600 BCE - 321 BCE)</h1>
+        <p>The Mahajanapada period saw the rise of 16 powerful states, known as Mahajanapadas, which played a crucial role in the political, social, and cultural development of ancient India. 🌍</p>
 
-      The Mahajanapada period saw the rise of 16 powerful states, known as Mahajanapadas, which played a crucial role in the political, social, and cultural development of ancient India.
+        <h2>Key Features:</h2>
 
-      ## Key Features:
+        <h3>1. 🏛️ Political Structure</h3>
+        <ul>
+          <li>16 major states or republics</li>
+          <li>Transition from tribal systems to more complex political organizations</li>
+          <li>Emergence of new forms of government, including republics and monarchies</li>
+        </ul>
 
-      ### 1. Political Structure
-      - 16 major states or republics
-      - Transition from tribal systems to more complex political organizations
-      - Emergence of new forms of government, including republics and monarchies
+        <h3>2. 💰 Economic Developments</h3>
+        <ul>
+          <li>Growth of trade and commerce</li>
+          <li>Use of punch-marked coins 💸</li>
+          <li>Urbanization and the rise of cities 🏙️</li>
+        </ul>
 
-      ### 2. Economic Developments
-      - Growth of trade and commerce
-      - Use of punch-marked coins
-      - Urbanization and the rise of cities
+        <h3>3. 🧑‍🤝‍🧑 Social Changes</h3>
+        <ul>
+          <li>Strengthening of the caste system</li>
+          <li>Rise of new religious movements (Buddhism and Jainism) 🕉️</li>
+          <li>Challenges to traditional Vedic practices 📜</li>
+        </ul>
 
-      ### 3. Social Changes
-      - Strengthening of the caste system
-      - Rise of new religious movements (Buddhism and Jainism)
-      - Challenges to traditional Vedic practices
+        <h3>4. 🎭 Cultural Advancements</h3>
+        <ul>
+          <li>Development of new philosophical ideas 💭</li>
+          <li>Advancements in literature and arts 🎨</li>
+          <li>Evolution of regional languages and dialects 🗣️</li>
+        </ul>
 
-      ### 4. Cultural Advancements
-      - Development of new philosophical ideas
-      - Advancements in literature and arts
-      - Evolution of regional languages and dialects
+        <h2>Notable Mahajanapadas:</h2>
+        <ol>
+          <li><strong>Magadha</strong>: Became the most powerful, later forming the core of the Mauryan Empire 💪</li>
+          <li><strong>Kosala</strong>: Known for its cultural significance and mentioned in epic literature 📚</li>
+          <li><strong>Kuru</strong>: Associated with the epic Mahabharata 🏹</li>
+          <li><strong>Panchala</strong>: Another kingdom featured in the Mahabharata 📖</li>
+          <li><strong>Gandhara</strong>: Known for its distinct art style and strategic location 🎨📍</li>
+        </ol>
 
-      ## Notable Mahajanapadas:
-
-      1. **Magadha**: Became the most powerful, later forming the core of the Mauryan Empire
-      2. **Kosala**: Known for its cultural significance and mentioned in epic literature
-      3. **Kuru**: Associated with the epic Mahabharata
-      4. **Panchala**: Another kingdom featured in the Mahabharata
-      5. **Gandhara**: Known for its distinct art style and strategic location
-
-      ## Legacy:
-      The Mahajanapada era laid the foundation for the political and cultural unification of India under the Mauryan Empire. It was a period of great intellectual and spiritual ferment, giving rise to new religious and philosophical traditions that would shape Indian culture for millennia to come.
+        <h2>Legacy:</h2>
+        <p>The Mahajanapada era laid the foundation for the political and cultural unification of India under the Mauryan Empire 🏛️. It was a period of great intellectual and spiritual ferment, giving rise to new religious and philosophical traditions that would shape Indian culture for millennia to come 🌱.</p>
+      </div>
     `
   },
   { 
@@ -479,11 +488,11 @@ export default function IndianHistory({ onNavigate }: IndianHistoryProps) {
                   historicalEvents
                     .find(event => event.id === selectedEvent)
                     ?.icon ? 
-                    historicalEvents.find(event => event.id === selectedEvent)?.icon() 
+                    historicalEvents.find(event => event.id === selectedEvent)?.icon()
                     : null
                 }
               </div>
-              <h2 className="text-3xl font-semibold mt-6 text-amber-800">
+              <h2 className="text-6xl font-semibold mt-6 text-amber-800">
                 {historicalEvents.find(event => event.id === selectedEvent)?.title}
               </h2>
               {/* Render description with improved styling without left border lines */}
@@ -495,10 +504,11 @@ export default function IndianHistory({ onNavigate }: IndianHistoryProps) {
                       ${historicalEvents.find(event => event.id === selectedEvent)?.description || ''}
                     </div>
                     <style>
-                      h1, h2, h3 {
+                      h, h1, h2, h3 {
                         color: #d97706;
                         font-weight: bold;
                         margin-bottom: 0.5em;
+                        font-size: 1.5rem;
                       }
                       ul {
                         list-style: disc;
