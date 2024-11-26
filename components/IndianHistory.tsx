@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FaOm, FaLandmark, FaBook, FaBuilding, FaCogs, FaChalkboardTeacher, FaGlobe } from 'react-icons/fa'
+import ReactMarkdown from 'react-markdown';
 
 interface IndianHistoryProps {
   onNavigate: (section: string) => void
@@ -16,7 +17,7 @@ const historicalEvents = [
     icon: FaBook, 
     description: `
       <div>
-        <h>Vedic Period (1500 BCE - 500 BCE)</h>
+        <h1>Vedic Period (1500 BCE - 500 BCE)</h1>
         <p>The Vedic Period marks the foundation of Indian civilization, with the composition of the four Vedas: Rigveda, Samaveda, Yajurveda, and Atharvaveda, which laid the spiritual and philosophical foundations of India.</p>
         
         <h3>🌟 Key Highlights:</h3>
@@ -63,40 +64,124 @@ const historicalEvents = [
 
         <h3>1. 🏛️ Political Structure</h3>
         <ul>
-          <li>16 major states or republics</li>
-          <li>Transition from tribal systems to more complex political organizations</li>
-          <li>Emergence of new forms of government, including republics and monarchies</li>
+            <li>16 major states or republics</li>
+            <li>Transition from tribal systems to more complex political organizations</li>
+            <li>Emergence of new forms of government, including republics and monarchies</li>
         </ul>
 
         <h3>2. 💰 Economic Developments</h3>
         <ul>
-          <li>Growth of trade and commerce</li>
-          <li>Use of punch-marked coins 💸</li>
-          <li>Urbanization and the rise of cities 🏙️</li>
+            <li>Growth of trade and commerce</li>
+            <li>Use of punch-marked coins 💸</li>
+            <li>Urbanization and the rise of cities 🏙️</li>
         </ul>
 
         <h3>3. 🧑‍🤝‍🧑 Social Changes</h3>
         <ul>
-          <li>Strengthening of the caste system</li>
-          <li>Rise of new religious movements (Buddhism and Jainism) 🕉️</li>
-          <li>Challenges to traditional Vedic practices 📜</li>
+            <li>Strengthening of the caste system</li>
+            <li>Rise of new religious movements (Buddhism and Jainism) 🕉️</li>
+            <li>Challenges to traditional Vedic practices 📜</li>
         </ul>
 
         <h3>4. 🎭 Cultural Advancements</h3>
         <ul>
-          <li>Development of new philosophical ideas 💭</li>
-          <li>Advancements in literature and arts 🎨</li>
-          <li>Evolution of regional languages and dialects 🗣️</li>
+            <li>Development of new philosophical ideas 💭</li>
+            <li>Advancements in literature and arts 🎨</li>
+            <li>Evolution of regional languages and dialects 🗣️</li>
         </ul>
 
-        <h2>Notable Mahajanapadas:</h2>
-        <ol>
-          <li><strong>Magadha</strong>: Became the most powerful, later forming the core of the Mauryan Empire 💪</li>
-          <li><strong>Kosala</strong>: Known for its cultural significance and mentioned in epic literature 📚</li>
-          <li><strong>Kuru</strong>: Associated with the epic Mahabharata 🏹</li>
-          <li><strong>Panchala</strong>: Another kingdom featured in the Mahabharata 📖</li>
-          <li><strong>Gandhara</strong>: Known for its distinct art style and strategic location 🎨📍</li>
-        </ol>
+        <h2>🗺️ Mahajanapadas: Capitals and Rulers</h2>
+          <table border="1" cellpadding="10" cellspacing="0">
+              <thead>
+                  <tr>
+                      <th>Mahajanapada</th>
+                      <th>Capital</th>
+                      <th>Rulers</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Magadha</td>
+                      <td>Rajagriha</td>
+                      <td>Bimbisara, Ajatashatru</td>
+                  </tr>
+                  <tr>
+                      <td>Kosala</td>
+                      <td>Shravasti</td>
+                      <td>Prasenajit</td>
+                  </tr>
+                  <tr>
+                      <td>Kuru</td>
+                      <td>Indraprastha</td>
+                      <td>Parikshit, Janamejaya</td>
+                  </tr>
+                  <tr>
+                      <td>Panchala</td>
+                      <td>Kampilya</td>
+                      <td>Drupada</td>
+                  </tr>
+                  <tr>
+                      <td>Gandhara</td>
+                      <td>Taxila</td>
+                      <td>Pukkusati</td>
+                  </tr>
+                  <tr>
+                      <td>Avanti</td>
+                      <td>Ujjayini</td>
+                      <td>Pradyota</td>
+                  </tr>
+                  <tr>
+                      <td>Vatsa</td>
+                      <td>Kausambi</td>
+                      <td>Udayana</td>
+                  </tr>
+                  <tr>
+                      <td>Anga</td>
+                      <td>Champa</td>
+                      <td>Karna</td>
+                  </tr>
+                  <tr>
+                      <td>Shurasena</td>
+                      <td>Mathura</td>
+                      <td>Vasudeva</td>
+                  </tr>
+                  <tr>
+                      <td>Assaka</td>
+                      <td>Potali</td>
+                      <td>Unknown</td>
+                  </tr>
+                  <tr>
+                      <td>Malla</td>
+                      <td>Kushinagar</td>
+                      <td>Republican rulers</td>
+                  </tr>
+                  <tr>
+                      <td>Chedi</td>
+                      <td>Suktimati</td>
+                      <td>Shishupala</td>
+                  </tr>
+                  <tr>
+                      <td>Videha</td>
+                      <td>Mithila</td>
+                      <td>Janaka</td>
+                  </tr>
+                  <tr>
+                      <td>Kashi</td>
+                      <td>Varanasi</td>
+                      <td>Unknown</td>
+                  </tr>
+                  <tr>
+                      <td>Vajji</td>
+                      <td>Vaishali</td>
+                      <td>Lichchhavis</td>
+                  </tr>
+                  <tr>
+                      <td>Matsya</td>
+                      <td>Viratanagara</td>
+                      <td>Virata</td>
+                  </tr>
+              </tbody>
+          </table>
 
         <h2>Legacy:</h2>
         <p>The Mahajanapada era laid the foundation for the political and cultural unification of India under the Mauryan Empire 🏛️. It was a period of great intellectual and spiritual ferment, giving rise to new religious and philosophical traditions that would shape Indian culture for millennia to come 🌱.</p>
@@ -109,40 +194,42 @@ const historicalEvents = [
     title: 'Maurya Empire', 
     icon: FaLandmark, 
     description: `
-      # Maurya Empire (322 BCE - 185 BCE)
-
-      The Maurya Empire unified most of the Indian subcontinent under one ruler and saw the rise of Ashoka, whose policies spread Buddhism across Asia.
-
-      ## Key Features:
-
-      ### 1. Political Unification
-      - First empire to unite most of the Indian subcontinent
-      - Centralized administration with a sophisticated bureaucracy
-      - Efficient taxation system and strong military
-
-      ### 2. Ashoka's Reign (268-232 BCE)
-      - Conversion to Buddhism after the Kalinga War
-      - Promotion of Buddhist values and non-violence (ahimsa)
-      - Establishment of rock and pillar edicts across the empire
-
-      ### 3. Economic Prosperity
-      - Thriving trade networks, both internal and external
-      - Standardization of weights, measures, and currency
-      - Development of infrastructure, including roads and irrigation systems
-
-      ### 4. Cultural Achievements
-      - Patronage of art and architecture (e.g., Pillars of Ashoka)
-      - Spread of Buddhism to Central Asia and Southeast Asia
-      - Advancements in science, mathematics, and astronomy
-
-      ## Notable Rulers:
-      1. **Chandragupta Maurya**: Founder of the empire
-      2. **Bindusara**: Expanded the empire further south
-      3. **Ashoka**: Greatest Mauryan emperor, known for his Buddhist conversion and edicts
-
-      ## Legacy:
-      The Maurya Empire set a precedent for centralized rule in India and played a crucial role in the spread of Buddhism. Ashoka's principles of dharma (righteous living) and religious tolerance influenced Indian political thought for centuries to come.
-    `
+      <h1> Maurya Empire (322 BCE - 185 BCE)</h1>
+        <p>The Maurya Empire unified most of the Indian subcontinent under one ruler and saw the rise of Ashoka, whose policies spread Buddhism across Asia.</p>
+        <h2>🌟 Key Features:</h2>
+        <h3>1️⃣ Political Unification</h3>
+        <ul>
+            <li>First empire to unite most of the Indian subcontinent</li>
+            <li>Centralized administration with a sophisticated bureaucracy</li>
+            <li>Efficient taxation system and strong military</li>
+        </ul>
+        <h3>2️⃣ Ashoka's Reign (268-232 BCE)</h3>
+        <ul>
+            <li>Conversion to Buddhism after the Kalinga War</li>
+            <li>Promotion of Buddhist values and non-violence (ahimsa)</li>
+            <li>Establishment of rock and pillar edicts across the empire</li>
+        </ul>
+        <h3>3️⃣ Economic Prosperity</h3>
+        <ul>
+            <li>Thriving trade networks, both internal and external</li>
+            <li>Standardization of weights, measures, and currency</li>
+            <li>Development of infrastructure, including roads and irrigation systems</li>
+        </ul>
+        <h3>4️⃣ Cultural Achievements</h3>
+        <ul>
+            <li>Patronage of art and architecture (e.g., Pillars of Ashoka)</li>
+            <li>Spread of Buddhism to Central Asia and Southeast Asia</li>
+            <li>Advancements in science, mathematics, and astronomy</li>
+        </ul>
+        <h2>🗿 Notable Rulers:</h2>
+        <ul>
+            <li><strong>Chandragupta Maurya</strong>: Founder of the empire</li>
+            <li><strong>Bindusara</strong>: Expanded the empire further south</li>
+            <li><strong>Ashoka</strong>: Greatest Mauryan emperor, known for his Buddhist conversion and edicts</li>
+        </ul>
+        <h2>🌏 Legacy:</h2>
+        <p>The Maurya Empire set a precedent for centralized rule in India and played a crucial role in the spread of Buddhism. Ashoka's principles of dharma (righteous living) and religious tolerance influenced Indian political thought for centuries to come.</p>
+      `
   },
   { 
     id: 'gupta', 
@@ -150,40 +237,49 @@ const historicalEvents = [
     title: 'Gupta Empire', 
     icon: FaBuilding, 
     description: `
-      # Gupta Empire (320 CE - 550 CE)
+      <h1>🌟 Gupta Empire (320 CE - 550 CE)</h1>
+      <p>The Gupta period is often referred to as the Golden Age of India due to its advancements in science, art, mathematics, and literature.</p>
 
-      The Gupta period is often referred to as the Golden Age of India due to its advancements in science, art, mathematics, and literature.
+      <h2>Key Achievements:</h2>
 
-      ## Key Achievements:
+      <h3>1. 🔭 Scientific Advancements</h3>
+      <ul>
+          <li>Aryabhata's work on astronomy and the concept of zero</li>
+          <li>Varahamihira's contributions to trigonometry</li>
+          <li>Advancements in metallurgy and medicine</li>
+      </ul>
 
-      ### 1. Scientific Advancements
-      - Aryabhata's work on astronomy and the concept of zero
-      - Varahamihira's contributions to trigonometry
-      - Advancements in metallurgy and medicine
+      <h3>2. ➗ Mathematical Innovations</h3>
+      <ul>
+          <li>Development of the decimal system</li>
+          <li>Brahmagupta's work on negative numbers and zero</li>
+          <li>Advancements in algebra and arithmetic</li>
+      </ul>
 
-      ### 2. Mathematical Innovations
-      - Development of the decimal system
-      - Brahmagupta's work on negative numbers and zero
-      - Advancements in algebra and arithmetic
+      <h3>3. 📚 Literary and Artistic Flourishing</h3>
+      <ul>
+          <li>Kalidasa's famous works like <em>Shakuntala</em> and <em>Meghaduta</em></li>
+          <li>Development of classical Sanskrit literature</li>
+          <li>Advancements in sculpture and painting (e.g., Ajanta Caves)</li>
+      </ul>
 
-      ### 3. Literary and Artistic Flourishing
-      - Kalidasa's famous works like Shakuntala and Meghaduta
-      - Development of classical Sanskrit literature
-      - Advancements in sculpture and painting (Ajanta Caves)
+      <h3>4. 🏛️ Architectural Marvels</h3>
+      <ul>
+          <li>Construction of grand temples and monasteries</li>
+          <li>Development of the Gupta style of architecture</li>
+          <li>Iconic structures like the Iron Pillar of Delhi</li>
+      </ul>
 
-      ### 4. Architectural Marvels
-      - Construction of grand temples and monasteries
-      - Development of the Gupta style of architecture
-      - Iconic structures like the Iron Pillar of Delhi
+      <h2>Notable Rulers:</h2>
+      <ol>
+          <li><strong>Chandragupta I</strong>: Founder of the Gupta Empire</li>
+          <li><strong>Samudragupta</strong>: Known for his military conquests and patronage of arts</li>
+          <li><strong>Chandragupta II</strong>: Oversaw the zenith of the Gupta Empire</li>
+      </ol>
 
-      ## Notable Rulers:
-      1. **Chandragupta I**: Founder of the Gupta Empire
-      2. **Samudragupta**: Known for his military conquests and patronage of arts
-      3. **Chandragupta II**: Oversaw the zenith of the Gupta Empire
-
-      ## Legacy:
-      The Gupta period's contributions to science, mathematics, literature, and art had a lasting impact on Indian culture and beyond. Many of the advancements made during this era laid the foundation for future developments in various fields.
-    `
+      <h2>Legacy:</h2>
+      <p>The Gupta period's contributions to science, mathematics, literature, and art had a lasting impact on Indian culture and beyond. Many of the advancements made during this era laid the foundation for future developments in various fields.</p>
+   `
   },
   { 
     id: 'medieval', 
@@ -418,11 +514,6 @@ export default function IndianHistory({ onNavigate }: IndianHistoryProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 text-amber-900 p-10"
-      style={{
-        backgroundImage: "url('/path-to-your-ancient-india-map.jpg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
     >
       {/* Header Section */}
       <nav className="flex justify-between items-center mb-12">
@@ -497,7 +588,7 @@ export default function IndianHistory({ onNavigate }: IndianHistoryProps) {
               </h2>
               {/* Render description with improved styling without left border lines */}
               <div
-                className="mt-6 text-amber-700 text-lg text-left leading-relaxed space-y-6"
+                className="mt-6 text-amber-900 text-lg text-left leading-relaxed space-y-6"
                 dangerouslySetInnerHTML={{
                   __html: `
                     <div class="pl-4 mb-6">
