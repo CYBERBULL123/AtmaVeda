@@ -484,12 +484,12 @@ export default function IndianHistory({ onNavigate }: IndianHistoryProps) {
             </button>
             <div className="flex flex-col items-center">
             <div className="w-36 h-36 bg-orange-100 rounded-full flex justify-center items-center text-orange-500 text-5xl shadow-md">
-              {/* {
+              {
                 (() => {
                   const selectedEventData = historicalEvents.find(event => event.id === selectedEvent);
                   return selectedEventData?.icon ? selectedEventData.icon() : null;
                 })()
-              } */}
+              }
             </div>
 
               <h2 className="text-6xl font-semibold mt-6 text-amber-800">
