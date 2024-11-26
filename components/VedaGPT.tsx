@@ -9,7 +9,12 @@ interface VedaGPTProps {
 }
 
 export default function VedaGPT({ onNavigate }: VedaGPTProps) {
-  const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([])
+  const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([
+    {
+      text: `🌟 Namaste, seeker! Welcome to **VedaGPT**, your **spiritual guide** and **knowledge companion**. 🙏\n\n🔮 With VedaGPT, you can:\n- Explore the **wisdom of ancient scriptures**.\n- Gain insights into **spiritual growth** and **mindfulness**.\n- Learn about **Indian history, culture**, and **traditions**.\n\n🕉️ How can I assist you on your spiritual journey today?`,
+      isUser: false,
+    },
+  ])
   const [input, setInput] = useState('')
   const [theme, setTheme] = useState<'daylight' | 'divine'>('divine')
 
@@ -20,7 +25,7 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
       setTimeout(() => {
         setMessages((prev) => [
           ...prev,
-          { text: "Namaste! I'm VedaGPT, your spiritual guide. How may I assist you on your journey?", isUser: false },
+          { text: "🌈 Thank you for reaching out! Let me share some wisdom with you. What topic interests you today?", isUser: false },
         ])
       }, 1000)
       setInput('')
@@ -39,9 +44,10 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
       className={`min-h-screen p-8 transition-colors duration-500 ${
         theme === 'daylight'
           ? 'bg-amber-100 text-amber-900'
-          : 'bg-gradient-to-b from-indigo-800 to-indigo-900 text-amber-100'
+          : 'bg-gradient-to-b from-indigo-900 to-purple-900 text-amber-100'
       }`}
     >
+      {/* Navigation */}
       <nav className="flex justify-between items-center mb-8 space-x-6">
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -75,11 +81,13 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
         </motion.button>
       </nav>
 
+      {/* Header */}
       <h1 className="text-5xl font-extrabold text-center mb-12">VedaGPT</h1>
 
+      {/* Chat Box */}
       <div
-        className={`max-w-2xl mx-auto mb-12 rounded-xl p-4 ${
-          theme === 'daylight' ? 'bg-white shadow-md' : 'bg-gray-700 bg-opacity-80'
+        className={`max-w-2xl mx-auto mb-12 rounded-xl p-6 space-y-4 ${
+          theme === 'daylight' ? 'bg-white shadow-lg' : 'bg-gray-800 bg-opacity-80'
         }`}
         style={{ maxHeight: '60vh', overflowY: 'auto' }}
       >
@@ -92,12 +100,12 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
             className={`mb-4 ${message.isUser ? 'text-right' : 'text-left'}`}
           >
             <span
-              className={`inline-block px-6 py-4 rounded-full shadow ${
+              className={`inline-block px-6 py-4 rounded-lg shadow ${
                 message.isUser
                   ? 'bg-gradient-to-r from-orange-500 to-yellow-500 text-white'
                   : theme === 'daylight'
                   ? 'bg-amber-200 text-amber-900'
-                  : 'bg-gray-600 text-white'
+                  : 'bg-purple-700 text-amber-100'
               }`}
             >
               {message.text}
@@ -106,6 +114,7 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
         ))}
       </div>
 
+      {/* Input Form */}
       <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
         <div className="relative">
           <input
@@ -113,10 +122,10 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask your spiritual question..."
-            className={`w-full py-3 px-5 rounded-full focus:outline-none shadow-lg transition duration-300 ${
+            className={`w-full py-4 px-5 rounded-full focus:outline-none shadow-lg transition duration-300 ${
               theme === 'daylight'
                 ? 'bg-amber-100 text-amber-900 placeholder-amber-600 focus:ring-2 focus:ring-amber-500'
-                : 'bg-gray-600 text-white placeholder-gray-300 focus:ring-2 focus:ring-indigo-400'
+                : 'bg-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500'
             }`}
           />
           <button
@@ -128,6 +137,7 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
         </div>
       </form>
 
+      {/* Footer Icon */}
       <motion.div
         animate={{ rotate: [0, -15, 15, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -137,4 +147,4 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
       </motion.div>
     </motion.div>
   )
-            }
+}
