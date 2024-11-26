@@ -483,15 +483,15 @@ export default function IndianHistory({ onNavigate }: IndianHistoryProps) {
               &larr; Back to History
             </button>
             <div className="flex flex-col items-center">
-              <div className="w-36 h-36 bg-orange-100 rounded-full flex justify-center items-center text-orange-500 text-5xl shadow-md">
-                {
-                  historicalEvents
-                    .find(event => event.id === selectedEvent)
-                    ?.icon ? 
-                    historicalEvents.find(event => event.id === selectedEvent)?.icon()
-                    : null
-                }
-              </div>
+            <div className="w-36 h-36 bg-orange-100 rounded-full flex justify-center items-center text-orange-500 text-5xl shadow-md">
+              {/* {
+                (() => {
+                  const selectedEventData = historicalEvents.find(event => event.id === selectedEvent);
+                  return selectedEventData?.icon ? selectedEventData.icon() : null;
+                })()
+              } */}
+            </div>
+
               <h2 className="text-6xl font-semibold mt-6 text-amber-800">
                 {historicalEvents.find(event => event.id === selectedEvent)?.title}
               </h2>
