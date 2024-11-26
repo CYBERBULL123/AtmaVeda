@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { FaOm, FaPaperPlane } from 'react-icons/fa'
+import { FaOm, FaPaperPlane, FaHome, FaHistory } from 'react-icons/fa'
 
 interface VedaGPTProps {
   onNavigate: (section: string) => void
@@ -32,7 +32,7 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen text-amber-100 p-8"
+      className="min-h-screen p-8 bg-gradient-to-b from-indigo-800 to-indigo-900 text-amber-100"
       style={{
         backgroundImage: "url('https://i.ibb.co/7QjxX08/Ox-Ima-Gen-2.png')",
         backgroundSize: 'cover',
@@ -42,28 +42,30 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
       }}
     >
-      <nav className="flex justify-between items-center mb-8">
+      <nav className="flex justify-between items-center mb-8 space-x-6">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="text-3xl font-extrabold text-amber-100 hover:text-amber-300 transition duration-300"
+          className="flex items-center text-lg font-semibold text-amber-100 hover:text-amber-300 transition duration-300 space-x-2"
           onClick={() => onNavigate('vedabase')}
         >
-          VedaBase
+          <FaHome />
+          <span>VedaBase</span>
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="text-3xl font-extrabold text-amber-100 hover:text-amber-300 transition duration-300"
+          className="flex items-center text-lg font-semibold text-amber-100 hover:text-amber-300 transition duration-300 space-x-2"
           onClick={() => onNavigate('history')}
         >
-          Indian History
+          <FaHistory />
+          <span>Indian History</span>
         </motion.button>
       </nav>
 
-      <h1 className="text-5xl font-extrabold text-center mb-12 text-amber-100">VedaGPT</h1>
+      <h1 className="text-5xl font-extrabold text-center mb-12">VedaGPT</h1>
 
-      <div className="max-w-2xl mx-auto" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+      <div className="max-w-2xl mx-auto mb-12" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
         {messages.map((message, index) => (
           <motion.div
             key={index}
@@ -73,10 +75,10 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
             className={`mb-4 ${message.isUser ? 'text-right' : 'text-left'}`}
           >
             <span
-              className={`inline-block p-4 rounded-lg ${
+              className={`inline-block p-4 rounded-lg shadow-md ${
                 message.isUser
                   ? 'bg-gradient-to-r from-orange-500 to-yellow-600 text-white'
-                  : 'bg-gray-500 text-white bg-opacity-30 backdrop-blur-md'
+                  : 'bg-gray-600 text-white bg-opacity-70 backdrop-blur-md'
               }`}
             >
               {message.text}
@@ -85,20 +87,20 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="max-w-2xl mx-auto mt-4">
+      <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
         <div className="relative">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask your spiritual question..."
-            className="w-full py-3 px-5 rounded-full bg-amber-100 text-indigo-900 placeholder-indigo-700 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full py-3 px-5 rounded-lg bg-amber-100 text-indigo-900 placeholder-indigo-700 focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-lg"
           />
           <button
             type="submit"
             className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500 hover:text-orange-600"
           >
-            <FaPaperPlane />
+            <FaPaperPlane size={22} />
           </button>
         </div>
       </form>
@@ -106,7 +108,7 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
       <motion.div
         animate={{ rotate: [0, -15, 15, 0] }} // Rotates left (-15deg) and right (15deg)
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        className="fixed bottom-4 right-4 text-9xl text-orange-500" // Made it larger with text-9xl
+        className="fixed bottom-4 right-4 text-6xl text-orange-500 animate-pulse"
       >
         <FaOm />
       </motion.div>
