@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaOm, FaSearch, FaBook, FaLightbulb, FaCalendarAlt,  FaPrayingHands, FaLandmark, FaUserAstronaut, FaYinYang } from 'react-icons/fa'
+import { FaOm, FaSearch, FaBook, FaLightbulb, FaCalendarAlt,  FaPrayingHands, FaLandmark, FaUserAstronaut, FaYinYang, FaHome } from 'react-icons/fa'
 
 interface VedabaseProps {
   onNavigate: (section: string) => void
@@ -161,7 +161,6 @@ export default function Vedabase({ onNavigate }: VedabaseProps) {
 
   useEffect(() => {
     if (selectedPart) {
-      // Simulating AI-powered insights for selected parts
       const insights = {
         'Rigveda': 'Rigveda focuses on hymns dedicated to various deities like Agni and Indra.',
         'Sankhya Yoga': 'Sankhya Yoga discusses the path of knowledge and self-realization.',
@@ -181,10 +180,6 @@ export default function Vedabase({ onNavigate }: VedabaseProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 text-amber-900 p-8"
-      style={{
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
     >
       <nav className="flex justify-between items-center mb-8">
         <motion.button
@@ -227,10 +222,18 @@ export default function Vedabase({ onNavigate }: VedabaseProps) {
               className="bg-white bg-opacity-75 rounded-lg p-6 shadow-lg cursor-pointer border-2 border-amber-200"
               onClick={() => setSelectedScripture(scripture.id)}
             >
-              <div className="flex items-center mb-4">
+              <motion.div
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: 'reverse',
+                }}
+                className="flex items-center mb-4"
+              >
                 <scripture.icon className="text-3xl text-orange-500 mr-4" />
                 <h2 className="text-2xl font-semibold text-amber-800">{scripture.title}</h2>
-              </div>
+              </motion.div>
               <p className="text-amber-700">{scripture.content}</p>
             </motion.div>
           ))}
