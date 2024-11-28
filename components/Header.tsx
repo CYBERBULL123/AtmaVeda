@@ -27,12 +27,12 @@ export default function Header() {
 
       {/* Gateway to Eternal Wisdom with Divine Animation */}
       <motion.h2
-        initial={{ opacity: 0, scale: 0.8 }}
+        initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, ease: "easeInOut" }}
+        transition={{ duration: 2.5, ease: "easeInOut" }}
         className="text-2xl md:text-3xl text-amber-800 font-semibold relative inline-block"
       >
-        <span className="relative z-10">Gateway to Eternal Wisdom</span>
+        <span className="relative z-10">Gateway to Eternal Wisdom 🌠</span>
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-orange-400 to-yellow-300 blur-lg opacity-50 rounded-lg"
           initial={{ opacity: 0 }}

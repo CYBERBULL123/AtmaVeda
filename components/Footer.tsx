@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaOm } from 'react-icons/fa';
+import { FaOm, FaLinkedin, FaGlobe, FaGithub, FaMedium } from 'react-icons/fa';
 
 export default function Footer() {
   return (
@@ -28,11 +28,6 @@ export default function Footer() {
         />
       </motion.div>
 
-      {/* Crafted By Text */}
-      <p className="text-2xl md:text-3xl text-amber-800 font-semibold">
-        Crafted with Devotion by <span className="text-orange-600">Aditya Pandey</span>
-      </p>
-
       {/* Divine Message */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -42,6 +37,48 @@ export default function Footer() {
       >
         ॐ शांति शांति शांति
       </motion.div>
+
+      {/* Crafted By Text */}
+      <motion.p
+        className="text-2xl md:text-3xl text-amber-800 font-semibold"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          repeatType: 'reverse',
+        }}
+      >
+        Crafted with Devotion by <span className="text-orange-600">Aditya Pandey</span>
+      </motion.p>
+
+      {/* Social Connect Section */}
+      <div className="mt-8 flex flex-wrap justify-center gap-6">
+        {[
+          { href: "https://www.linkedin.com/in/aditya-pandey-896109224", icon: FaLinkedin, label: "LinkedIn" },
+          { href: "https://aadi-web-1.onrender.com/", icon: FaGlobe, label: "Website" },
+          { href: "https://github.com/CYBERBULL123", icon: FaGithub, label: "GitHub" },
+          { href: "https://cyberbull.medium.com/", icon: FaMedium, label: "Medium" },
+        ].map((link) => (
+          <motion.a
+            key={link.href}
+            href={link.href}
+            className="relative flex flex-col items-center group"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.2 }}
+            transition={{ type: "spring", stiffness: 200, damping: 10 }}
+          >
+            <link.icon className="text-4xl md:text-5xl text-orange-600 group-hover:text-orange-800" />
+            <motion.span
+              className="mt-2 text-sm text-orange-800 opacity-0 group-hover:opacity-100"
+              transition={{ duration: 0.3 }}
+            >
+              {link.label}
+            </motion.span>
+          </motion.a>
+        ))}
+      </div>
     </footer>
   );
 }

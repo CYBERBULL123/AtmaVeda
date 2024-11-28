@@ -70,15 +70,7 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
           - Start with a **relevant verse** from the Vedas, Upanishads, Bhagavad Gita, or other scriptures
 
         **🕉️ Closing Sloka & Reflection**:  
-          - End with an **uplifting sloka or quote** summarizing the message. 
-          
-        **🧘‍♂️ In-Depth Explanation**:  
-          - Offer a **thorough, well-rounded answer** that simplifies complex ideas.  
-          - Combine spiritual wisdom, cultural insights, and historical context.   
-
-        **💡 Practical Advice**:  
-          - Provide actionable suggestions like slokas, meditations, rituals, or philosophical practices.  
-          - Tailor the advice to the user’s question and offer steps for application in daily life.  
+          - End with an **uplifting sloka or quote** summarizing the message.   
           
           (**${language === 'english' ? 'English' : 'Hindi'}**).  according to the user's choice. Use emojis to make the text feel more interactive, warm, and approachable. 
 
