@@ -43,7 +43,7 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
           ],
         });
         setChat(newChat);
-        setMessages([{ text: "Namaste! I'm VedaGPT , your spiritual guide. How may I assist you?", isUser: false }]);
+        setMessages([{ text: "Namaste!🙏🏻 I'm VedaGPT , your spiritual guide. How may I assist you?", isUser: false }]);
       } catch (error) {
         console.error('Error initializing chat:', error);
       }
@@ -90,7 +90,7 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
       return result.response.text();
     } catch (error) {
       console.error('Gemini API Error:', error);
-      return "I'm sorry, but I couldn't connect to the universe's wisdom right now.";
+      return "I'm sorry, but I couldn't connect to the universe's wisdom right now 😵‍💫.";
     }
   };
 
@@ -237,7 +237,7 @@ export default function VedaGPT({ onNavigate }: VedaGPTProps) {
               type="submit"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500 hover:text-orange-600"
+              className="absolute right-4 top-1/2  text-orange-500 hover:text-orange-600"
             >
               <FaPaperPlane size={24} />
             </motion.button>
