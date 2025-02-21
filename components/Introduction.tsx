@@ -59,17 +59,17 @@ export default function Introduction() {
 function Gallery() {
   const images = [
     {
-      src: 'https://i.ibb.co/Q8CNS1v/vedSrp.png',
+      src: '/1.webp',
       alt: 'Vedic Scriptures',
       caption: 'Vedic Scriptures',
     },
     {
-      src: 'https://i.ibb.co/yP85s5w/sprPLC.png',
+      src: '/1.png',
       alt: 'Spiritual Places',
       caption: 'Sacred Spiritual Places',
     },
     {
-      src: 'https://i.ibb.co/mD00G7y/cosmic.png',
+      src: '3.webp',
       alt: 'Cosmic Elements',
       caption: 'Cosmic Elements of Dharma',
     },
