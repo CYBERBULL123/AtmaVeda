@@ -2,7 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaOm, FaSearch, FaBook, FaLightbulb, FaCalendarAlt,  FaPrayingHands, FaLandmark, FaUserAstronaut, FaYinYang, FaHome } from 'react-icons/fa'
+import { FaOm, FaSearch, FaBook, FaLightbulb, FaCalendarAlt, FaPrayingHands, FaLandmark, FaUserAstronaut, FaYinYang, FaHome, FaSpinner } from 'react-icons/fa'
+import { GoogleGenerativeAI } from '@google/generative-ai'
+import ReactMarkdown from 'react-markdown'
+
+const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_API_KEY as string)
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
 
 interface VedabaseProps {
   onNavigate: (section: string) => void
@@ -157,21 +162,27 @@ export default function Vedabase({ onNavigate }: VedabaseProps) {
   const [selectedScripture, setSelectedScripture] = useState<string | null>(null)
   const [selectedPart, setSelectedPart] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
-  const [aiInsight, setAiInsight] = useState('')
+  const [aiContent, setAiContent] = useState<{ [key: string]: string }>({})
+  const [loadingParts, setLoadingParts] = useState<{ [key: string]: boolean }>({})
 
-  useEffect(() => {
-    if (selectedPart) {
-      const insights = {
-        'Rigveda': 'Rigveda focuses on hymns dedicated to various deities like Agni and Indra.',
-        'Sankhya Yoga': 'Sankhya Yoga discusses the path of knowledge and self-realization.',
-        'Vishnu Purana': 'Vishnu Purana elaborates on the ten avatars of Vishnu and creation cycles.',
-      }
-      setAiInsight(insights[selectedPart] || 'Dive deeper into the essence of this scripture.')
+  const generateContent = async (part: string) => {
+    setLoadingParts(prev => ({ ...prev, [part]: true }))
+    try {
+      const prompt = `As a Vedic scholar, provide comprehensive explanation of "${part}" including:
+      1. Sanskrit verse with transliteration
+      2. English translation and interpretation
+      3. Philosophical significance
+      4. Practical applications
+      5. Related stories/examples
+      Use markdown with emojis for section headers. Keep it engaging and insightful.`
+      
+      const result = await model.generateContent(prompt)
+      const response = await result.response
+      setAiContent(prev => ({ ...prev, [part]: response.text() }))
+    } catch (error) {
+      setAiContent(prev => ({ ...prev, [part]: "Failed to connect with divine wisdom. Please try again later." }))
     }
-  }, [selectedPart])
-
-  const handlePartClick = (part: string) => {
-    setSelectedPart(part)
+    setLoadingParts(prev => ({ ...prev, [part]: false }))
   }
 
   return (
@@ -251,17 +262,17 @@ export default function Vedabase({ onNavigate }: VedabaseProps) {
             ← Back to VedaBase
           </motion.button>
           <h2 className="text-3xl font-bold text-amber-800 mb-6">
-            {scriptures.find((scripture) => scripture.id === selectedScripture)?.title}
+            {scriptures.find((s) => s.id === selectedScripture)?.title}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {scriptures
-              .find((scripture) => scripture.id === selectedScripture)
+              .find((s) => s.id === selectedScripture)
               ?.parts.map((part) => (
                 <motion.div
                   key={part}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.02 }}
                   className="bg-white bg-opacity-75 rounded-lg p-4 shadow-md cursor-pointer border-2 border-amber-200"
-                  onClick={() => handlePartClick(part)}
+                  onClick={() => setSelectedPart(part)}
                 >
                   <h3 className="text-xl font-semibold text-amber-700">{part}</h3>
                 </motion.div>
@@ -271,19 +282,80 @@ export default function Vedabase({ onNavigate }: VedabaseProps) {
       )}
 
       {selectedPart && (
-        <div>
+        <div className="space-y-6">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="text-lg text-amber-800 hover:text-amber-600 mb-4"
+            className="flex items-center text-lg text-amber-800 hover:text-amber-600"
             onClick={() => setSelectedPart(null)}
           >
             ← Back to Parts
           </motion.button>
-          <h2 className="text-3xl font-bold text-amber-800 mb-6">{selectedPart}</h2>
-          <div className="bg-white bg-opacity-75 rounded-lg p-6 shadow-lg border-2 border-amber-200">
-            <h3 className="text-2xl font-semibold text-amber-800 mb-4">AI-Powered Insight</h3>
-            <p className="text-amber-700">{aiInsight}</p>
+
+          <div className="bg-white/80 rounded-xl p-6 shadow-2xl border-2 border-amber-200">
+            <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-amber-700 to-orange-700 bg-clip-text text-transparent">
+                {selectedPart}
+              </h2>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => generateContent(selectedPart)}
+                disabled={loadingParts[selectedPart]}
+                className={`px-6 py-2 rounded-full ${
+                  loadingParts[selectedPart] 
+                    ? 'bg-amber-200 cursor-not-allowed' 
+                    : 'bg-amber-600 hover:bg-amber-700'
+                } text-white font-semibold flex items-center gap-2`}
+              >
+                {loadingParts[selectedPart] ? (
+                  <>
+                    <FaSpinner className="animate-spin" />
+                    Channeling Wisdom...
+                  </>
+                ) : (
+                  <>
+                    <FaLightbulb />
+                    Generate Divine Insights
+                  </>
+                )}
+              </motion.button>
+            </div>
+
+            {aiContent[selectedPart] ? (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="prose prose-lg max-w-none p-4 bg-amber-50 rounded-lg shadow-inner"
+              >
+                <ReactMarkdown
+                  components={{
+                    h3: ({ children }) => (
+                      <h3 className="text-amber-800 text-xl font-bold mb-4 flex items-center gap-2">
+                        {children}
+                      </h3>
+                    ),
+                    p: ({ children }) => (
+                      <p className="text-amber-700 mb-4 leading-relaxed">
+                        {children}
+                      </p>
+                    ),
+                    strong: ({ children }) => (
+                      <strong className="text-amber-800">{children}</strong>
+                    )
+                  }}
+                >
+                  {aiContent[selectedPart]}
+                </ReactMarkdown>
+              </motion.div>
+            ) : (
+              <div className="text-center py-12 space-y-4">
+                <div className="text-6xl text-amber-500 animate-pulse-slow">🕉</div>
+                <p className="text-amber-700 text-lg">
+                  Click below to unveil sacred knowledge about {selectedPart}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       )}
