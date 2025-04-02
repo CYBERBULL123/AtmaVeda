@@ -1,16 +1,12 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { FaOm, FaSearch, FaBook, FaLightbulb, FaCalendarAlt, FaPrayingHands, FaLandmark, FaUserAstronaut, FaYinYang, FaHome, FaSpinner } from 'react-icons/fa'
-import { GoogleGenerativeAI } from '@google/generative-ai'
-import ReactMarkdown from 'react-markdown'
-
-const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_API_KEY as string)
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { FaOm, FaSearch, FaBook, FaLightbulb, FaCalendarAlt, FaPrayingHands, FaLandmark, FaYinYang, FaSpinner } from 'react-icons/fa';
+import ReactMarkdown from 'react-markdown';
 
 interface VedabaseProps {
-  onNavigate: (section: string) => void
+  onNavigate: (section: string) => void;
 }
 
 const scriptures = [
@@ -159,31 +155,33 @@ const scriptures = [
 ];
 
 export default function Vedabase({ onNavigate }: VedabaseProps) {
-  const [selectedScripture, setSelectedScripture] = useState<string | null>(null)
-  const [selectedPart, setSelectedPart] = useState<string | null>(null)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [aiContent, setAiContent] = useState<{ [key: string]: string }>({})
-  const [loadingParts, setLoadingParts] = useState<{ [key: string]: boolean }>({})
+  const [selectedScripture, setSelectedScripture] = useState<string | null>(null);
+  const [selectedPart, setSelectedPart] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [aiContent, setAiContent] = useState<{ [key: string]: string }>({});
+  const [loadingParts, setLoadingParts] = useState<{ [key: string]: boolean }>({});
+  const [language, setLanguage] = useState<'en' | 'hi'>('en');
 
-  const generateContent = async (part: string) => {
-    setLoadingParts(prev => ({ ...prev, [part]: true }))
+  const generateContent = async (part: string, lang: 'en' | 'hi' = 'en') => {
+    setLoadingParts(prev => ({ ...prev, [part]: true }));
     try {
-      const prompt = `As a Vedic scholar, provide comprehensive explanation of "${part}" including:
-      1. Sanskrit verse with transliteration
-      2. English translation and interpretation
-      3. Philosophical significance
-      4. Practical applications
-      5. Related stories/examples
-      Use markdown with emojis for section headers. Keep it engaging and insightful.`
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ part, language: lang })
+      });
       
-      const result = await model.generateContent(prompt)
-      const response = await result.response
-      setAiContent(prev => ({ ...prev, [part]: response.text() }))
+      const data = await res.json();
+      if (res.ok) {
+        setAiContent(prev => ({ ...prev, [part]: data.content }));
+      } else {
+        setAiContent(prev => ({ ...prev, [part]: data.error }));
+      }
     } catch (error) {
-      setAiContent(prev => ({ ...prev, [part]: "Failed to connect with divine wisdom. Please try again later." }))
+      setAiContent(prev => ({ ...prev, [part]: "Failed to connect with divine wisdom. Please try again later." }));
     }
-    setLoadingParts(prev => ({ ...prev, [part]: false }))
-  }
+    setLoadingParts(prev => ({ ...prev, [part]: false }));
+  };
 
   return (
     <motion.div
@@ -212,6 +210,19 @@ export default function Vedabase({ onNavigate }: VedabaseProps) {
       </nav>
 
       <h1 className="text-4xl font-bold text-center mb-8 text-amber-800">VedaBase</h1>
+
+      {/* Language Toggle */}
+      <div className="flex justify-end mb-4">
+        <label className="mr-2 text-amber-800 font-semibold">Language:</label>
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value as 'en' | 'hi')}
+          className="py-2 px-4 rounded bg-white bg-opacity-50 text-amber-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+        >
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+        </select>
+      </div>
 
       <div className="relative mb-8">
         <input
@@ -300,18 +311,18 @@ export default function Vedabase({ onNavigate }: VedabaseProps) {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => generateContent(selectedPart)}
+                onClick={() => generateContent(selectedPart, language)}
                 disabled={loadingParts[selectedPart]}
                 className={`px-6 py-2 rounded-full ${
-                  loadingParts[selectedPart] 
-                    ? 'bg-amber-200 cursor-not-allowed' 
+                  loadingParts[selectedPart]
+                    ? 'bg-amber-200 cursor-not-allowed'
                     : 'bg-amber-600 hover:bg-amber-700'
                 } text-white font-semibold flex items-center gap-2`}
               >
                 {loadingParts[selectedPart] ? (
                   <>
-                    <FaSpinner className="animate-spin" />
-                    Channeling Wisdom...
+                    <FaSpinner className="animate-spin bg-orange-300" />
+                    <span className="text-amber-800 ml-2">Channeling Wisdom...</span>
                   </>
                 ) : (
                   <>
@@ -360,5 +371,5 @@ export default function Vedabase({ onNavigate }: VedabaseProps) {
         </div>
       )}
     </motion.div>
-  )
+  );
 }
