@@ -17,6 +17,7 @@
     "country-flag-icons": "^1.5.18",
     "framer-motion": "^11.11.17",
     "lucide-react": "^0.460.0",
+    "mongodb": "^6.15.0",
     "next": "^14.2.16",
     "postcss": "^8.4.24",
     "react": "^18.2.0",
