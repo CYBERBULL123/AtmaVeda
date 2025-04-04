@@ -1,8 +1,17 @@
 import clientPromise from '../../lib/mongodb';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' }); // Ensure correct model
+
+function withTimeout(promise, ms) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Gemini response timed out')), ms)
+    ),
+  ]);
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -16,16 +25,14 @@ export default async function handler(req, res) {
 
   try {
     const client = await clientPromise;
-    const db = client.db(); // defaults to DB name in your URI
-    const cacheCollection = db.collection('Atmaveda'); // matches your MongoDB collection name
+    const db = client.db();
+    const cacheCollection = db.collection('Atmaveda');
 
-    // Check for existing cached response
     const cached = await cacheCollection.findOne({ part, language });
     if (cached) {
       return res.status(200).json({ content: cached.content, cached: true });
     }
 
-    // Advanced prompt construction
     let prompt = `Assume the role of an authoritative Vedic scholar with deep academic expertise. Provide a comprehensive and well-structured explanation of "${part}" that includes the following sections:
 
 🔸 **Sanskrit Verse & Transliteration:**  
@@ -66,21 +73,37 @@ Use internal chain-of-thought (CoT) and tree-of-thought (ToT) reasoning, but **d
 अपने आंतरिक विचार (चेन-ऑफ-थॉट और ट्री-ऑफ-थॉट) का उपयोग करें पर अंतिम आउटपुट में उसे न दिखाएं। Markdown में आकर्षक और सुव्यवस्थित उत्तर दें।`;
     }
 
-    // Generate content
-    const result = await model.generateContent(prompt);
-    const responseText = await result.response.text();
+    // 🧠 Correct structure for generateContentStream
+    const result = await withTimeout(
+      model.generateContentStream({
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: prompt }],
+          },
+        ],
+      }),
+      9500 // Ensure we stay below Vercel Hobby timeout
+    );
 
-    // Cache result in MongoDB
+    let finalText = '';
+    for await (const chunk of result.stream) {
+      finalText += chunk.text();
+    }
+
+    // Cache for reuse
     await cacheCollection.updateOne(
       { part, language },
-      { $set: { content: responseText, createdAt: new Date() } },
+      { $set: { content: finalText, createdAt: new Date() } },
       { upsert: true }
     );
 
-    return res.status(200).json({ content: responseText, cached: false });
+    return res.status(200).json({ content: finalText, cached: false });
 
   } catch (error) {
-    console.error("MongoDB or AI Error:", error);
-    return res.status(500).json({ error: "Failed to connect with divine wisdom. Please try again later." });
+    console.error('MongoDB or Gemini Error:', error);
+    return res.status(500).json({
+      error: 'Failed to connect with divine wisdom. Please try again shortly.',
+    });
   }
 }
